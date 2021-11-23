@@ -11,13 +11,18 @@ getting data fro the server useing fetch
        + "&units=metric&appid="
        + this.apiKey
        )
-   .then((response) => response.json())
-   .then((data) => then.showWeaher(data));
+   .then((response) => {
+     if( !response.ok){
+       alert ("No weather data was found.");
+     }
+     return response.json();
+    })
+   .then((data) => this.displayWeather(data));
    },
    /*-----------------------------
  DOM Vanilla JS
 --------------------------------------------------*/
-showWeather: function(data){
+displayWeather: function(data){
     const { name } = data;
     const { icon, description } = data.weather[0];
     const { temp, humidity } = data.main;
@@ -32,5 +37,23 @@ showWeather: function(data){
     document.querySelector(".wind").innerText= "Wind speed:" + speed + "km/h"
     document.querySelector(".weather").classList.remove("loading");
     document.body.style.backgroundImage = "url('https://source.unsplash.com/1600x900/?" +  name + ")";
+},
     //console weather.getWeather("Ukraine")
+  /*--------------------
+EventListeners
+-------------------------*/
+userInput: function(){
+    this.getWeather(document.querySelector(".searchCity").value);
+ }, 
+ //defining the function to get the value on the input in the search bar
+}; 
   
+ // add EventListened to the search button
+ document.querySelector(".search").addEventListener("click", function(){ weather.userInput();
+ });
+ //add EventListened to a search  bar so the user could cklick enter keypad
+ document.querySelector(".searchCity").addEventListener("keyup", function (evt){ if(evt.key == "Enter"){
+    weather.userInput();
+ }
+ });
+ 
