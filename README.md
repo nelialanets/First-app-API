@@ -1,4 +1,5 @@
 # First-App-API
+Weather App
 
 The simple app is designed using OpenWeather API.
 
